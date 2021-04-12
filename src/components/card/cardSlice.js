@@ -15,25 +15,7 @@ const initialState = {
       expireMonth: "12",
       expireYear: "22",
       ccv: "345",
-      vendor: "Visa",
-      isActive: false,
-    },
-    {
-      cardNumber: "1225223523426982",
-      cardHolder: "",
-      expireMonth: "12",
-      expireYear: "22",
-      ccv: "345",
       vendor: "Mastercard",
-      isActive: false,
-    },
-    {
-      cardNumber: "2345672523426982",
-      cardHolder: "",
-      expireMonth: "12",
-      expireYear: "22",
-      ccv: "345",
-      vendor: "Discover",
       isActive: true,
     },
   ],
@@ -44,7 +26,6 @@ const cardSlice = createSlice({
   initialState,
   reducers: {
     changeActive: (state, action) => {
-      console.log(action.payload);
       for (let i = 0; i < state.cards.length; i++) {
         if (state.cards[i].isActive === true) {
           state.cards[i].isActive = false;
@@ -62,7 +43,6 @@ const cardSlice = createSlice({
       }
     },
     removeCard: (state, action) => {
-      console.log(action.payload);
       for (let i = 0; i < state.cards.length; i++) {
         if (state.cards[i].cardNumber === action.payload) {
           state.cards.splice(i, 1);

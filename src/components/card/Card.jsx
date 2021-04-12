@@ -4,6 +4,7 @@ import { FaCcMastercard, FaCcVisa, FaCcDiscover } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { changeActive, removeCard } from "../card/cardSlice";
 import { IoRemoveCircleOutline } from "react-icons/io5";
+import { useState } from "react";
 
 const Card = (props) => {
   const {
@@ -15,17 +16,28 @@ const Card = (props) => {
     isActive,
   } = props;
 
+  const [showBtn, setShowBtn] = useState();
+
   const dispatch = useDispatch();
 
   const handleActiveCard = () => {
     dispatch(changeActive(cardNumber));
   };
 
-  let formatNumber = cardNumber.match(/.{1,4}/g);
+  let newNumber = cardNumber.replace(/[^0-9]/g, "");
+  let formatNumber = newNumber.match(/.{1,4}/g);
 
   return (
-    <>
-      {!isActive && (
+    <div
+      className="btn"
+      onMouseEnter={() => {
+        setShowBtn(true);
+      }}
+      onMouseLeave={() => {
+        setShowBtn(false);
+      }}
+    >
+      {!isActive && showBtn ? (
         <IoRemoveCircleOutline
           size={30}
           style={{ color: "rgb(126, 0, 0)", cursor: "pointer" }}
@@ -33,7 +45,7 @@ const Card = (props) => {
             dispatch(removeCard(cardNumber));
           }}
         />
-      )}
+      ) : null}
       <div
         className={`card`}
         onDoubleClick={handleActiveCard}
@@ -71,12 +83,13 @@ const Card = (props) => {
           <div className="bottom">
             <h5>{cardHolder}</h5>
             <h5>
-              {expireMonth}/{expireYear}
+              {expireMonth.replace(/[^0-9]/g, "")}/
+              {expireYear.replace(/[^0-9]/g, "")}
             </h5>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
